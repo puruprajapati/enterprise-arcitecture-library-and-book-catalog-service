@@ -1,0 +1,13 @@
+package library.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class NotifyCheckoutBookDTO {
+  private String isbn;
+  private String scanCode;
+}

@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: library-management-system
+  datasource:
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/lmsdb
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+server:
+  port: 9090
+  netty:
+    connection-timeout: 6000
+logging:
+  level:
+    root: info
+  file:
+    name: C:/pprajapati/MIU/Courses/Enterprise Architecture (CS544)/EA_by-Rene-De_jong/Project/library-server/src/main/resources/logs/app.log
+#  file:
+#    path: C:\pprajapati\MIU\Courses\Enterprise Architecture (CS544)\EA_by-Rene-De_jong\Project\library-server\src\main\resources\logs\app.log
+library-app:
+  max-checkout-book: 4 # no of books customer can check out book at a time
+  max-days-borrow: 21 # no of days customer can borrow book
+  fee-per-day: 0.5 # fee amount for late return per day in dollar
+  product-catalog-url: http://localhost:8080/api/books/ # book catalog url
+  outstanding-fee-print-time: 20   # 20 second
+

@@ -1,0 +1,36 @@
+#spring.application.name=library-management-system
+#
+#spring.datasource.url=jdbc:postgresql://localhost:5432/lmsdb
+#spring.datasource.username=postgres
+#spring.datasource.password=postgres
+##spring.jpa.defer-datasource-initialization=true
+#spring.datasource.initialize=true
+#
+#spring.jpa.hibernate.ddl-auto=create
+##spring.jpa.show-sql=true
+#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+#
+#logging.level.root=INFO
+#logging.level.org.springframework=INFO
+#logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} - %logger - %msg%n
+#logging.pattern.file=%d{yyyy-MM-dd HH:mm:ss} - %logger - %msg%n
+#logging.file.name=C:/pprajapati/MIU/Courses/Enterprise Architecture (CS544)/EA_by-Rene-De_jong/Project/library-server/src/main/resources/logs/app.log
+#
+server.port = 9090
+server.netty.connection-timeout=6000
+#
+# no of books customer can check out book at a time
+library-app.max-checkout-book= 4
+# no of days customer can borrow book
+library-app.max-days-borrow= 21
+# fee amount for late return per day in dollar
+library-app.fee-per-day= 0.5
+# book catalog url
+library-app.product-catalog-url= http://localhost:8080/api/books
+# 20 second
+library-app.outstanding-fee-print-time= 20
+#
+#spring.activemq.broker-url=tcp://localhost:61616
+#spring.activemq.user=admin
+#spring.activemq.password=admin
+#
