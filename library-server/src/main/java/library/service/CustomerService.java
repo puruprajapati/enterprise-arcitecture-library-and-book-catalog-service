@@ -24,11 +24,11 @@ public interface CustomerService {
 
   // borrow
   void checkOutBook(String customerNumber, String isbn) throws ResourceNotFoundException, JsonProcessingException;
-  void returnBook(String customerNumber, String isbn, String scanCode) throws ResourceNotFoundException;
+  void returnBook(String customerNumber, String isbn, String scanCode) throws ResourceNotFoundException, JsonProcessingException;
   void payFee(String customerNumber, double amount) throws ResourceNotFoundException;
 
   // report
-  List<OutstandingAmountPerCustomerDTO> getOutstandingFeePerCustomer(String customerNumber);
+  OutstandingAmountPerCustomerDTO getOutstandingFeePerCustomer(String customerNumber);
   void getAllCustomerData(String customerNumber);
   List<BorrowedAndLateReturnedBookDTO> getAllBorrowedAndLateReturnedBook();
 

@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class NotifyCheckoutBookDTO {
   private String isbn;
   private String scanCode;
+  private boolean isAvailable;
 }
 

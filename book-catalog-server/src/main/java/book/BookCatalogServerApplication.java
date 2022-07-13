@@ -41,7 +41,7 @@ public class BookCatalogServerApplication {
 
     @Override
     public boolean isRunning() {
-      return false;
+      return true;
     }
   }
 

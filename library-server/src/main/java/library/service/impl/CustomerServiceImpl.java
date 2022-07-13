@@ -137,14 +137,14 @@ public class CustomerServiceImpl implements CustomerService {
     if(customer.isPresent()){
       customer.get().checkOutBook(isbn, scanCode, dueDate, maxBookThatCanBeCheckout);
       customerRepo.save(customer.get());
-      notifyCheckout.pushCheckoutMsgToActiveMQ(new NotifyCheckoutBookDTO(isbn, scanCode));
+      notifyCheckout.pushCheckoutAndReturnMsgToActiveMQ(new NotifyCheckoutBookDTO(isbn, scanCode));
     } else {
       throw new ResourceNotFoundException(INVALID_CUSTOMER);
     }
   }
 
   @Override
-  public void returnBook(String customerNumber, String isbn, String scanCode) throws ResourceNotFoundException {
+  public void returnBook(String customerNumber, String isbn, String scanCode) throws ResourceNotFoundException, JsonProcessingException {
     Optional<Customer> customer = customerRepo.findByCustomerNumber(customerNumber);
     if(customer.isPresent()){
       // check whether this book is reserved by another customer, if yes send mail to that customer
@@ -157,6 +157,7 @@ public class CustomerServiceImpl implements CustomerService {
       }
       customer.get().returnBook(isbn, scanCode);
       customerRepo.save(customer.get());
+      notifyCheckout.pushCheckoutAndReturnMsgToActiveMQ(new NotifyCheckoutBookDTO(isbn, scanCode));
     } else {
       throw new ResourceNotFoundException(INVALID_CUSTOMER);
     }
@@ -165,10 +166,10 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   public void payFee(String customerNumber,double amount) throws ResourceNotFoundException {
     // get librarian in system
-    Librarian librarian = librarianRepo.findAll().get(0);
+//    Librarian librarian = librarianRepo.findAll().get(0);
     Optional<Customer> customer = customerRepo.findByCustomerNumber(customerNumber);
     if(customer.isPresent()){
-      customer.get().payFee(amount, librarian);
+      customer.get().payFee(amount, null);
       customerRepo.save(customer.get());
     } else {
       throw new ResourceNotFoundException(INVALID_CUSTOMER);
@@ -176,17 +177,16 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
-  public List<OutstandingAmountPerCustomerDTO> getOutstandingFeePerCustomer(String customerNumber) {
+  public OutstandingAmountPerCustomerDTO getOutstandingFeePerCustomer(String customerNumber) {
     List<Object[]> tempObject = customerRepo.getOutstandingAmountPerCustomer(customerNumber, applicationProperties.getFeePerDay());
-    List<OutstandingAmountPerCustomerDTO> resultSet = new ArrayList<>();
+    OutstandingAmountPerCustomerDTO dataSet = new OutstandingAmountPerCustomerDTO();
     for(Object[] result: tempObject){
-      OutstandingAmountPerCustomerDTO dataSet = new OutstandingAmountPerCustomerDTO();
+
       dataSet.setCustomerNumber((String) result[0]);
       dataSet.setName((String) result[1]);
       dataSet.setOutstandingFee((Double) result[2]);
-      resultSet.add(dataSet);
     }
-    return resultSet;
+    return dataSet;
   }
 
   @Override

@@ -3,6 +3,7 @@ package book.service;
 import book.dto.BookDTO;
 import book.exception.ResourceNotFoundException;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface BookService {
@@ -13,4 +14,8 @@ public interface BookService {
   BookDTO getBookByIsbn(String isbn) throws ResourceNotFoundException;
 
   void updateCheckedOutBook(String isbn, String scanCode) throws ResourceNotFoundException;
+
+  Collection<BookDTO> searchBookByTitle(String searchValue);
+
+  Collection<BookDTO> searchBookByPublisher(String searchValue);
 }

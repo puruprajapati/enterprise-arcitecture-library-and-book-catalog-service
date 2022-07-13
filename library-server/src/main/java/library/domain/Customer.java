@@ -53,10 +53,10 @@ public class Customer extends User {
   private String email;
   @Column(unique = true)
   private String customerNumber;
-  @OneToMany(cascade = CascadeType.PERSIST)
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name="customer_id")
   private List<CheckoutEntry> checkoutEntries = new ArrayList<>();
-  @OneToMany(cascade = CascadeType.PERSIST)
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name="customer_id")
   private List<PaymentEntry> paymentEntries = new ArrayList<>();
   @OneToMany(cascade = CascadeType.ALL)

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import library.dto.BorrowDTO;
 import library.dto.CustomerDTO;
 import library.dto.CustomerListDTO;
+import library.dto.PaymentDTO;
 import library.exception.ResourceNotFoundException;
 import library.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,14 +75,14 @@ public class CustomerController {
 
   @PostMapping("/return-book")
 //  public ResponseEntity<?> returnBook(@RequestParam String customerNumber, @RequestParam String isbn, @RequestParam String scanCode) throws ResourceNotFoundException {
-  public ResponseEntity<?> returnBook(@RequestBody BorrowDTO borrowDTO) throws ResourceNotFoundException {
+  public ResponseEntity<?> returnBook(@RequestBody BorrowDTO borrowDTO) throws ResourceNotFoundException, JsonProcessingException {
     customerService.returnBook(borrowDTO.getCustomerNumber(), borrowDTO.getIsbn(), borrowDTO.getScanCode());
     return new ResponseEntity<>(RETURNED_BOOK, HttpStatus.OK);
   }
 
   @PostMapping("/pay-fee")
-  public ResponseEntity<?> payFee(@RequestParam String customerNumber, @RequestParam double amount) throws ResourceNotFoundException {
-    customerService.payFee(customerNumber, amount);
+  public ResponseEntity<?> payFee(@RequestBody PaymentDTO paymentDTO) throws ResourceNotFoundException {
+    customerService.payFee(paymentDTO.getCustomerNumber(), paymentDTO.getAmount());
     return new ResponseEntity<>(PAYMENT_MADE, HttpStatus.OK);
   }
 
@@ -90,7 +91,7 @@ public class CustomerController {
     return new ResponseEntity<>(customerService.getAllBorrowedAndLateReturnedBook(), HttpStatus.OK);
   }
 
-  @GetMapping("/reports/getAllBorrowedAndLateReturnedBook/{customerNumber}")
+  @GetMapping("/reports/getOutstandingAmountPerCustomer/{customerNumber}")
   public ResponseEntity<?> getOutstandingAmountPerCustomer(@PathVariable String customerNumber){
     return new ResponseEntity<>(customerService.getOutstandingFeePerCustomer(customerNumber), HttpStatus.OK);
   }

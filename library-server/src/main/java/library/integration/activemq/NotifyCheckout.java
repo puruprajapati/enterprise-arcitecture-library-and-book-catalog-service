@@ -12,9 +12,10 @@ public class NotifyCheckout {
   @Autowired
   private JmsTemplate jmsTemplate;
 
-  public void pushCheckoutMsgToActiveMQ(NotifyCheckoutBookDTO notifyCheckoutBook) throws JsonProcessingException {
+  public void pushCheckoutAndReturnMsgToActiveMQ(NotifyCheckoutBookDTO notifyCheckoutBook) throws JsonProcessingException {
     ObjectMapper objectMapper = new ObjectMapper();
     String notifyMsg = objectMapper.writeValueAsString(notifyCheckoutBook);
     jmsTemplate.convertAndSend("CHECKOUT_BOOK", notifyMsg);
   }
 }
+

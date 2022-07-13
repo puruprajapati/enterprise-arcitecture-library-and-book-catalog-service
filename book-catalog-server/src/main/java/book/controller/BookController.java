@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static book.constants.MessageConstants.BOOK_DELETED;
@@ -29,6 +31,17 @@ public class BookController {
   public ResponseEntity<?> getBookByIsbn(@PathVariable(name="isbn") String isbn) throws ResourceNotFoundException {
     BookDTO bookDTO = bookService.getBookByIsbn(isbn);
     return ResponseEntity.ok().body(bookDTO);
+  }
+
+  @GetMapping("/search")
+  public ResponseEntity<?> searchBook(@RequestParam String searchBy, @RequestParam String searchValue){
+    Collection<BookDTO> bookDTOCollection = new ArrayList<>();
+    if(searchBy.equals("title")){
+      bookDTOCollection = bookService.searchBookByTitle(searchValue);
+    } else if(searchBy.equals("publisher")){
+      bookDTOCollection = bookService.searchBookByPublisher(searchValue);
+    }
+    return ResponseEntity.ok().body(bookDTOCollection);
   }
 
   @PostMapping

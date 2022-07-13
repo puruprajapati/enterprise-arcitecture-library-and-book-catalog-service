@@ -79,7 +79,7 @@ public class Book {
 
   public void updateCheckedOutBook(String scanCode){
     BookCopy bookCopy = bookCopies.stream().filter(book -> book.getScanCode().equals(scanCode)).findFirst().get();
-    bookCopy.setAvailable(false);
+    bookCopy.setAvailable(!bookCopy.isAvailable());
   }
 
 

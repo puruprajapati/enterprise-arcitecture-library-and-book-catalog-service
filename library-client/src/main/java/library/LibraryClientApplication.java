@@ -59,24 +59,71 @@ public class LibraryClientApplication implements CommandLineRunner {
     System.out.println("******************* reserve a book *******************");
     restTemplate.postForLocation(serverUrl + "/reserve-book", reqForReservation);
 
-    // checkout book - not found book
     BorrowRequest reqForCheckout = new BorrowRequest();
-    reqForCheckout.setCustomerNumber("EA001");
-    reqForCheckout.setScanCode("11-11111");
-    System.out.println("******************* checkout a book *******************");
-    restTemplate.postForLocation(serverUrl + "/checkout-book", reqForCheckout);
+
+
+    // checkout book - not found book
+    try {
+      reqForCheckout.setCustomerNumber("EA001");
+      reqForCheckout.setIsbn("11-11111");
+      System.out.println("******************* checkout a book *******************");
+      var response = restTemplate.postForLocation(serverUrl + "/checkout-book", reqForCheckout);
+      System.out.println(response);
+    } catch(Exception ex) {
+      System.out.println(ex.getMessage());
+    }
 
     // checkout book - invalid customer
-    reqForCheckout.setCustomerNumber("EA001");
-    reqForCheckout.setScanCode("48-56882");
-    System.out.println("******************* checkout a book *******************");
-    restTemplate.postForLocation(serverUrl + "/checkout-book", reqForCheckout);
+    try {
+      reqForCheckout.setCustomerNumber("EA001");
+      reqForCheckout.setIsbn("48-56882");
+      System.out.println("******************* checkout a book *******************");
+      var response = restTemplate.postForLocation(serverUrl + "/checkout-book", reqForCheckout);
+      System.out.println(response);
+    } catch (Exception ex){
+      System.out.println(ex.getMessage());
+    }
+
 
     // checkout book - valid
-    reqForCheckout.setCustomerNumber("EA002");
-    reqForCheckout.setScanCode("48-56882");
-    System.out.println("******************* checkout a book *******************");
-    restTemplate.postForLocation(serverUrl + "/checkout-book", reqForCheckout);;
+    try {
+      reqForCheckout.setCustomerNumber("EA002");
+      reqForCheckout.setIsbn("48-56882");
+      System.out.println("******************* checkout a book *******************");
+      var response = restTemplate.postForLocation(serverUrl + "/checkout-book", reqForCheckout);
+      System.out.println(response);
+    } catch (Exception ex){
+      System.out.println(ex.getMessage());
+    }
+
+    // return book
+    try {
+      reqForCheckout.setCustomerNumber("EA001");
+      reqForCheckout.setIsbn("28-12331");
+      reqForCheckout.setScanCode("A00100BOOL3");
+      System.out.println("******************* return a book *******************");
+      var response = restTemplate.postForLocation(serverUrl + "/return-book", reqForCheckout);
+      System.out.println(response);
+    } catch (Exception ex){
+      System.out.println(ex.getMessage());
+    }
+
+    // get outstanding fee for customer
+    OutstandingFeePerCustomer outstandingFeePerCustomer = restTemplate.getForObject(serverUrl + "/reports/getOutstandingAmountPerCustomer/{customerNumber}", OutstandingFeePerCustomer.class, "EA001");
+    System.out.println("******************* Get outstanding fee *******************");
+    System.out.println(outstandingFeePerCustomer);
+
+    // pay fee for the customer
+    try {
+      Payment payment = new Payment();
+      payment.setCustomerNumber("EA001");
+      payment.setAmount(outstandingFeePerCustomer.getOutstandingFee());
+      System.out.println("******************* pay fee *******************");
+      var response = restTemplate.postForLocation(serverUrl + "/pay-fee", payment);
+      System.out.println(response);
+    } catch (Exception ex){
+      System.out.println(ex.getMessage());
+    }
 
   }
 }
