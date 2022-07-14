@@ -1,5 +1,6 @@
 package book.controller;
 
+import book.dto.BookCollectionDTO;
 import book.dto.BookDTO;
 import book.exception.ResourceNotFoundException;
 import book.service.BookService;
@@ -24,7 +25,8 @@ public class BookController {
   @GetMapping
   public ResponseEntity<?> getAllBooks(){
     List<BookDTO> bookDTOS = bookService.getAllBooks();
-    return new ResponseEntity<>(bookDTOS, HttpStatus.OK);
+    BookCollectionDTO books = new BookCollectionDTO(bookDTOS);
+    return new ResponseEntity<>(books, HttpStatus.OK);
   }
 
   @GetMapping("/{isbn}")
@@ -41,7 +43,8 @@ public class BookController {
     } else if(searchBy.equals("publisher")){
       bookDTOCollection = bookService.searchBookByPublisher(searchValue);
     }
-    return ResponseEntity.ok().body(bookDTOCollection);
+    BookCollectionDTO books = new BookCollectionDTO(bookDTOCollection);
+    return ResponseEntity.ok().body(books);
   }
 
   @PostMapping

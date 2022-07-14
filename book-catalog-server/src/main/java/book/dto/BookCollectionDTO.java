@@ -1,4 +1,4 @@
-package book.model;
+package book.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,6 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookList {
-  private Collection<Book> books;
+public class BookCollectionDTO {
+  private Collection<BookDTO> books;
 }
-

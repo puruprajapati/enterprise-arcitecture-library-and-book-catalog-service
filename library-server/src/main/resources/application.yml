@@ -30,6 +30,14 @@ logging:
     root: info
   file:
     name: C:/pprajapati/MIU/Courses/Enterprise Architecture (CS544)/EA_by-Rene-De_jong/Project/library-server/src/main/resources/logs/app.log
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
 #  file:
 #    path: C:\pprajapati\MIU\Courses\Enterprise Architecture (CS544)\EA_by-Rene-De_jong\Project\library-server\src\main\resources\logs\app.log
 library-app:
@@ -38,4 +46,3 @@ library-app:
   fee-per-day: 0.5 # fee amount for late return per day in dollar
   product-catalog-url: http://localhost:8080/api/books/ # book catalog url
   outstanding-fee-print-time: 20   # 20 second
-

@@ -45,7 +45,7 @@ public class LibraryClientApplication implements CommandLineRunner {
     customer.setTelephone("6418192461");
     customer.setEmail("pprajapati@miu.edu");
     customer.setAddress(new Address("1000N 4th street", "Fairfield", "IOWA", 52557));
-//    restTemplate.postForLocation(serverUrl, customer);
+    restTemplate.postForLocation(serverUrl, customer);
 
     // search customer by name
     customerList = restTemplate.getForObject(serverUrl + "/search/{searchText}", Customers.class, "puru");
@@ -55,7 +55,7 @@ public class LibraryClientApplication implements CommandLineRunner {
     // reserve book
     BorrowRequest reqForReservation = new BorrowRequest();
     reqForReservation.setCustomerNumber("EA001");
-    reqForReservation.setIsbn("A00100BOOL8");
+    reqForReservation.setIsbn("11-11111");
     System.out.println("******************* reserve a book *******************");
     restTemplate.postForLocation(serverUrl + "/reserve-book", reqForReservation);
 
